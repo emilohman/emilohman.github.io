@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Emil Öhman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='assets/style.css' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic' rel='stylesheet' type='text/css'>
+  <meta name="google-site-verification" content="8MQbbASq1_ps2FMGIjHch6zDTnek3kgptyu5n_ZTbKM" />
+  <meta name="description" content="My name is Emil Öhman. I&#x27;m a front-end developer from Sweden.">
+  <meta name="keywords" content="Emil Öhman,Emil,Öhman,front-end,front-end developer,front-end utvecklare,webbutvecklare,systemutvecklare">
+  <meta name="author" content="Emil Öhman">
+</head>
+<body>
+  <header class="header">
+  <div class="content">
+    <nav class="nav">
+      <a href="/" class="nav-item nav-item-home">Home</a>
+      <a href="/#about" class="nav-item nav-item-about">About</a>
+      <a href="/#blog" class="nav-item nav-item-blog">Blog</a>
+      <a href="/#contact" class="nav-item nav-item-contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1 class="hero-content-title">Emil Öhman</h1>
+      <em class="hero-content-description">Front-end developer</em>
+    </div>
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 309.156 309.156" xml:space="preserve" width="32" height="32" class="scroll-arrow">
+      <polygon style="fill:#ffffff;" points="288.461,64.929 154.589,202.766 20.723,64.94 0,85.07 154.589,244.228 309.156,85.07"/>
+    </svg>
+  </div>
+  <div class="content-container">
+    
+<section class="content-section about">
+  <div class="content">
+    <h2 class="about-title h1">About me</h2>
+    <p>My name is Emil Öhman. I'm a front-end developer from Sweden.
+    <br />Currently I'm working at <a href="http://svenskaspel.se" class="about-link">Svenska Spel</a> as a front-end teach-lead.</p>
+
+    <p>I'm really passionate about the web and loves to build fast websites that works great on all devices.</p>
+  </div>
+</section>
+<section class="content-section blog">
+  <div class="content">
+    <h2 class="h1">Blog</h2>
+    
+      
+        
+        <div class="blog-post">
+          <a class="content-link" href="fixing-the-momentum-scrolling-on-ios">
+            18 January 2016 <h3>Fixing the momentum scrolling on iOS</h3>
+            <p>How to always get an elastic effect when using momentum scrolling on iOS.</p>
+          </a>
+          <a href="fixing-the-momentum-scrolling-on-ios" class="blog-post-link">Read post</a>
+          <div class="clear"></div>
+        </div>
+        
+        <div class="blog-post">
+          <a class="content-link" href="introduction-to-oocss">
+            01 June 2015 <h3>Introduction to OOCSS</h3>
+            <p>Learn how to build large CSS projects and get started with OOCSS.</p>
+          </a>
+          <a href="introduction-to-oocss" class="blog-post-link">Read post</a>
+          <div class="clear"></div>
+        </div>
+        
+      
+    
+  </div>
+</section>
+    <section class="content-section contact">
+  <div class="content">
+    <h2 class="contact-title h1">Contact</h2>
+    <p>If you whant to say hi or ask my anything please send me a tweet <a href="http://twitter.com/emilohman" class="contact-link">@emilohman</a> or e-mail at: <a href="mailto:emilohman@gmail.com" class="contact-link">emilohman@gmail.com</a></p>
+  </div>
+</section>
+  </div>
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript">
+    window.onload = function() {
+      document.getElementsByTagName('body')[0].className = 'loaded';
+    };
+
+    var scrollTimeout,
+        windowHeight = $(window).height(),
+        nav = $('.nav'),
+        navItems = $('.nav-item'),
+        navItemContact = $('.nav-item-contact'),
+        navItemBlog = $('.nav-item-blog'),
+        navItemAbout = $('.nav-item-about'),
+        navItemHome = $('.nav-item-home'),
+        contactTop = $('.contact').offset().top,
+        blogTop = $('.blog').offset().top,
+        aboutTop = $('.about').offset().top,
+        scrollOffset = windowHeight / 2;
+
+    navItemHome.addClass('nav-item-active');
+
+    $(window).on('scroll', function() {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+
+      scrollTimeout = setTimeout(function() {
+        var scrollTop = $(window).scrollTop();
+
+        if (scrollTop + windowHeight > contactTop + scrollOffset - 100) {
+          if (!navItemContact.hasClass('nav-item-active')) {
+            navItems.removeClass('nav-item-active');
+            navItemContact.addClass('nav-item-active');
+          }
+        } else if (scrollTop + windowHeight > blogTop + scrollOffset) {
+          if (!navItemBlog.hasClass('nav-item-active')) {
+            navItems.removeClass('nav-item-active');
+            navItemBlog.addClass('nav-item-active');
+          }
+        } else if (scrollTop + windowHeight > aboutTop + scrollOffset) {
+          if (!navItemAbout.hasClass('nav-item-active')) {
+            navItems.removeClass('nav-item-active');
+            navItemAbout.addClass('nav-item-active');
+          }
+        } else {
+          navItems.removeClass('nav-item-active');
+          navItemHome.addClass('nav-item-active');
+        }
+      }, 10);
+    });
+
+    navItemHome.click(function(e) {
+      $('html, body').animate({scrollTop: 0}, 1000);
+      location.hash = '';
+      e.preventDefault();
+    });
+
+    $(window).on('hashchange', function() {
+      loadHash();
+    });
+
+    function loadHash() {
+      var hash = window.location.hash;
+
+      if (hash === '#about') {
+        $('html, body').animate({scrollTop: aboutTop}, 1000);
+      } else if (hash === '#blog') {
+        $('html, body').animate({scrollTop: blogTop}, 1000);
+      } else if (hash === '#contact') {
+        $('html, body').animate({scrollTop: contactTop}, 1000);
+      }
+    }
+
+    loadHash();
+  </script>
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-201156-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function () {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

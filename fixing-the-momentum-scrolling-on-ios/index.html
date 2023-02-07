@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Fixing the momentum scrolling on iOS - Emil Öhman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='../assets/prism.css' rel='stylesheet' type='text/css'>
+  <link href='../assets/style.css' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic' rel='stylesheet' type='text/css'>
+  <meta name="google-site-verification" content="8MQbbASq1_ps2FMGIjHch6zDTnek3kgptyu5n_ZTbKM" />
+  <meta name="description" content="How to always get an elastic effect when using momentum scrolling on iOS.">
+  <meta name="keywords" content="-webkit-overflow-scrolling,touch,momentum scrolling,elastic scrolling,scrolling">
+  <meta name="author" content="Emil Öhman">
+</head>
+<body>
+  <header class="header">
+  <div class="content">
+    <nav class="nav">
+      <a href="/" class="nav-item nav-item-home">Home</a>
+      <a href="/#about" class="nav-item nav-item-about">About</a>
+      <a href="/#blog" class="nav-item nav-item-blog nav-item-active">Blog</a>
+      <a href="/#contact" class="nav-item nav-item-contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="content-container-sub-page">
+    <section class="content-section blog">
+      <div class="content">
+        
+<h1 id="fixing-the-momentum-scrolling-on-ios">Fixing the momentum scrolling on iOS</h1>
+<p>  When momentum scrolling is activated with <a href="https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/">-webkit-overflow-scrolling: touch;</a> you’ll get native performance on scrolling. If you scroll to the very beginning or end you’ll get an elastic effect. But if you start scrolling down from the end or up from the beginning you’ll scroll the entire page instead of the elastic effect again.</p>
+<p>  This can be prevented by adding the code-snippet below to you’re scrolling element:</p>
+<pre><code class="language-javascript"><span class="comment">// Get the scrolling element</span>
+<span class="keyword">var</span> scrollElement = document.getElementById(<span class="string">'scrolling-element'</span>);
+
+<span class="comment">// When the user touches the element just before scrolling</span>
+scrollElement.addEventListener(<span class="string">'touchstart'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> scrollTop = scrollElement.scrollTop,
+    scrollHeight = scrollElement.scrollHeight,
+    scrollBottom = scrollTop + scrollElement.offsetHeight;
+
+  <span class="keyword">if</span> (scrollTop === <span class="number">0</span>) {
+    <span class="comment">// If scroll position is at the beginning, scroll down 1px</span>
+    <span class="comment">// to get elastic effect if the user scrolls up</span>
+    scrollElement.scrollTop = <span class="number">1</span>;
+  } <span class="keyword">else</span> <span class="keyword">if</span> (scrollBottom === scrollHeight) {
+    <span class="comment">// Do the opposite if scroll position is at the end</span>
+    scrollElement.scrollTop = scrollTop - <span class="number">1</span>;
+  }
+});</code></pre>
+<p>  What happens is that you scroll the element 1px from the top or bottom when you start touching the element. That way you never start scrolling from the beginning or end and you’ll get the elastic effect instead of scrolling the entire page.</p>
+
+      </div>
+    </section>
+    <section class="content-section contact">
+  <div class="content">
+    <h2 class="contact-title h1">Contact</h2>
+    <p>If you whant to say hi or ask my anything please send me a tweet <a href="http://twitter.com/emilohman" class="contact-link">@emilohman</a> or e-mail at: <a href="mailto:emilohman@gmail.com" class="contact-link">emilohman@gmail.com</a></p>
+  </div>
+</section>
+  </div>
+  <script src="../assets/prism.js"></script>
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-201156-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function () {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

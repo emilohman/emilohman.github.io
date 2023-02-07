@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Introduction to OOCSS - Emil Öhman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='../assets/prism.css' rel='stylesheet' type='text/css'>
+  <link href='../assets/style.css' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic' rel='stylesheet' type='text/css'>
+  <meta name="google-site-verification" content="8MQbbASq1_ps2FMGIjHch6zDTnek3kgptyu5n_ZTbKM" />
+  <meta name="description" content="Learn how to build large CSS projects and get started with OOCSS.">
+  <meta name="keywords" content="CSS,OOCSS,CSS architecture">
+  <meta name="author" content="Emil Öhman">
+</head>
+<body>
+  <header class="header">
+  <div class="content">
+    <nav class="nav">
+      <a href="/" class="nav-item nav-item-home">Home</a>
+      <a href="/#about" class="nav-item nav-item-about">About</a>
+      <a href="/#blog" class="nav-item nav-item-blog nav-item-active">Blog</a>
+      <a href="/#contact" class="nav-item nav-item-contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="content-container-sub-page">
+    <section class="content-section blog">
+      <div class="content">
+        
+<h1 id="introduction-to-oocss">Introduction to OOCSS</h1>
+<p>The world today is moving fast and so does the web.
+To keep the time to market short it&#39;s important to be able to reuse objects on the page.
+It&#39;s also important to write code that scales well and is easy to maintain over time.</p>
+<p><a href="https://github.com/stubbornella/oocss/wiki">OOCSS</a> (Object Oriented CSS) is a set of principles that helps
+you build reusable components that you can place anywhere on the page and still look and behave the same.</p>
+<p>The two main principles are: <em>separating structure and skin</em> and <em>separate the container and contents</em>.</p>
+<h2 id="separating-structure-and-skin">Separating structure and skin</h2>
+<p>Skins in this case are different themes for the object that changes the appearance of eg. colors and font sizes.
+By moving the CSS for appearances to separate classes, it becomes a lot easier to change it without
+having to create complex CSS selectors.</p>
+<p>A typical CSS for two button could look like this:</p>
+<pre><code class="language-css"><span class="tag">button</span><span class="id">#call-to-action</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> inline-block</span></span>;
+  <span class="rule"><span class="attribute">padding</span>:<span class="value"> <span class="number">5</span>px</span></span>;
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#4f4</span></span></span>;
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;
+<span class="rule">}</span></span>
+
+<span class="tag">button</span><span class="id">#cancel</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> inline-block</span></span>;
+  <span class="rule"><span class="attribute">padding</span>:<span class="value"> <span class="number">5</span>px</span></span>;
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#ccc</span></span></span>;
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#999</span></span></span>;
+<span class="rule">}</span></span></code></pre>
+<pre><code class="language-markup">&lt;button id=&quot;call-to-action&quot;&gt;Call to action&lt;/button&gt;
+&lt;button id=&quot;cancel&quot;&gt;Cancel&lt;/button&gt;</code></pre>
+<p>with OOCSS we separates structure to the .button class and design to the skin classes .button-call-to-action and .button-cancel:</p>
+<pre><code class="language-css"><span class="class">.button</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> inline-block</span></span>;
+  <span class="rule"><span class="attribute">padding</span>:<span class="value"> <span class="number">5</span>px</span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.button-call-to-action</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#4f4</span></span></span>;
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.button-cancel</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#ccc</span></span></span>;
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#999</span></span></span>;
+<span class="rule">}</span></span></code></pre>
+<pre><code class="language-markup">&lt;button class=&quot;button button-call-to-action&quot;&gt;Call to action&lt;/button&gt;
+&lt;button class=&quot;button button-cancel&quot;&gt;Cancel&lt;/button&gt;</code></pre>
+<p>Another important detail in the example is that all objects are written with classes and never with
+IDs or elements. By doing so we separate the objects from the HTML structure. That way we can apply the button object
+on any element we want:</p>
+<pre><code class="language-markup">&lt;a class=&quot;button button-call-to-action&quot;&gt;Call to action&lt;/a&gt;
+
+&lt;button class=&quot;button button-call-to-action&quot;&gt;Call to action&lt;/button&gt;
+
+&lt;div role=&quot;button&quot; class=&quot;button button-call-to-action&quot;&gt;Call to action&lt;/div&gt;
+
+&lt;input type=&quot;button&quot; class=&quot;button button-call-to-action&quot; value=&quot;Call to action&quot; /&gt;</code></pre>
+<p>To keep specificity low we use the name of the object as a prefix. That makes all classes unique and we don&#39;t need
+to create unnecessary complex selectors.</p>
+<p>When specificity is low it&#39;s much easier to create new skins and override the CSS if needed.</p>
+<h2 id="separate-the-container-and-contents">Separate the container and contents</h2>
+<p>The second principle is that objects should always look the same regardless of where they are located on the page.
+One rule of thumb is that you should always be able to copy the HTML code for an component and place it anywhere on the
+page and it should still look the same.</p>
+<p>To achieve that, the first principle must be achieved plus the CSS can&#39;t have a dependency to it&#39;s container.</p>
+<p>Avoid writing:</p>
+<pre><code class="language-css"><span class="class">.shopping-cart</span> <span class="class">.button</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#4f4</span></span></span>;
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;
+<span class="rule">}</span></span></code></pre>
+<pre><code class="language-markup">&lt;div class=&quot;shopping-cart&quot;&gt;
+  &lt;button class=&quot;button&quot;&gt;Checkout&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<p>Instead, create a new skin for the component with a new unique classname:</p>
+<pre><code class="language-css"><span class="class">.button-call-to-action</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#4f4</span></span></span>;
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;
+<span class="rule">}</span></span></code></pre>
+<pre><code class="language-markup">&lt;button class=&quot;button button-call-to-action&quot;&gt;Checkout&lt;/button&gt;</code></pre>
+<h2 id="summary">summary</h2>
+<p>OOCSS helps you build reusable objects and keeps your CSS much easier to maintain. This is made by:</p>
+<ul>
+<li>Always using classes, never elements and IDs</li>
+<li>Create one class for structure and one or more classes for skins</li>
+<li>Always prefix classnames with the name of the object to make classnames unique and keep specificity low</li>
+<li>Avoid to apply CSS to objects depending on it&#39;s location</li>
+</ul>
+
+      </div>
+    </section>
+    <section class="content-section contact">
+  <div class="content">
+    <h2 class="contact-title h1">Contact</h2>
+    <p>If you whant to say hi or ask my anything please send me a tweet <a href="http://twitter.com/emilohman" class="contact-link">@emilohman</a> or e-mail at: <a href="mailto:emilohman@gmail.com" class="contact-link">emilohman@gmail.com</a></p>
+  </div>
+</section>
+  </div>
+  <script src="../assets/prism.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-201156-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
+</html>
